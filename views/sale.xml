@@ -1,0 +1,60 @@
+<odoo>
+    <record id="quotation_inherit_silksoft_view" model="ir.ui.view">
+        <field name="name">quotation.inherit.silksoft.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree" position="inside">
+                <field name="up_sale_state" invisible="1"/>
+                <field name="quantity_read_only_state" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'sale'), ('quantity_read_only_state', '=', False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="unlock_up_sale_action" model="ir.actions.server">
+        <field name="name">Unlock Up-Sale</field>
+        <field name="model_id" ref="ejad_sale_order.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="groups_id" eval="[(4,ref('ejad_sale_order.group_sale_order_super'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model._unlock_up_sale()
+        </field>
+    </record>
+
+    <record id="lock_up_sale_action" model="ir.actions.server">
+        <field name="name">Lock Up-Sale</field>
+        <field name="model_id" ref="ejad_sale_order.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="groups_id" eval="[(4,ref('ejad_sale_order.group_sale_order_super'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model._lock_up_sale()
+        </field>
+    </record>
+
+    <record id="lock_quantity_action" model="ir.actions.server">
+        <field name="name">Lock Quantity</field>
+        <field name="model_id" ref="ejad_sale_order.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="groups_id" eval="[(4,ref('ejad_sale_order.group_sale_order_super'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model._lock_quantity_action()
+        </field>
+    </record>
+
+    <record id="unlock_quantity_action" model="ir.actions.server">
+        <field name="name">Unlock Quantity</field>
+        <field name="model_id" ref="ejad_sale_order.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="groups_id" eval="[(4,ref('ejad_sale_order.group_sale_order_super'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model._unlock_quantity_action()
+        </field>
+    </record>
+</odoo>
